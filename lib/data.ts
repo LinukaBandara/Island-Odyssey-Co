@@ -8,6 +8,7 @@ export type Destination = {
   alt: string;
   tag: "beach" | "wildlife" | "culture" | "hiking";
   mapPos: { top: string; left: string };
+  coordinates: { lat: number; lng: number };
 };
 
 export const destinations: Destination[] = [
@@ -21,6 +22,7 @@ export const destinations: Destination[] = [
     alt: "Aerial view of Galle Fort's lighthouse and coastline at dusk, Sri Lanka",
     tag: "beach",
     mapPos: { top: "83%", left: "34%" },
+    coordinates: { lat: 6.0329, lng: 80.2168 },
   },
   {
     slug: "kandy",
@@ -32,6 +34,7 @@ export const destinations: Destination[] = [
     alt: "The Temple of the Sacred Tooth Relic illuminated at dusk in Kandy, Sri Lanka",
     tag: "culture",
     mapPos: { top: "48%", left: "52%" },
+    coordinates: { lat: 7.2906, lng: 80.6337 },
   },
   {
     slug: "yala",
@@ -43,6 +46,7 @@ export const destinations: Destination[] = [
     alt: "A family of wild elephants walking through the bush in Yala National Park, Sri Lanka",
     tag: "wildlife",
     mapPos: { top: "78%", left: "68%" },
+    coordinates: { lat: 6.3725, lng: 81.5185 },
   },
   {
     slug: "dambulla",
@@ -54,6 +58,7 @@ export const destinations: Destination[] = [
     alt: "Sigiriya rock fortress rising above the forest canopy near Dambulla, Sri Lanka",
     tag: "culture",
     mapPos: { top: "32%", left: "55%" },
+    coordinates: { lat: 7.8731, lng: 80.7718 },
   },
   {
     slug: "ella",
@@ -65,6 +70,7 @@ export const destinations: Destination[] = [
     alt: "A blue train crossing the Nine Arch Bridge through the forest near Ella, Sri Lanka",
     tag: "hiking",
     mapPos: { top: "64%", left: "58%" },
+    coordinates: { lat: 6.8667, lng: 81.0466 },
   },
 ];
 
