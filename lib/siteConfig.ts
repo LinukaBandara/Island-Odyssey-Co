@@ -6,6 +6,7 @@ export const siteConfig = {
     "Handcrafted Sri Lanka itineraries across coastline, hill country, ancient cities, and wildlife parks.",
   ogImage: "/og-image.jpg",
   gaMeasurementId: process.env.NEXT_PUBLIC_GA_ID || "",
+  newsletterFormUrl: process.env.NEXT_PUBLIC_NEWSLETTER_FORM_URL || "",
   contact: {
     whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "",
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
