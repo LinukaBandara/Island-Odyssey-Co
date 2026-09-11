@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useItineraryModal } from "./ItineraryModalContext";
+import { siteConfig } from "@/lib/siteConfig";
 
 const fieldClass =
   "w-full rounded-[2px] border border-black/15 px-4 py-3 text-sm outline-none focus:border-gold transition-colors bg-white";
@@ -11,7 +12,7 @@ export default function ItineraryModal() {
   const { state, closeModal } = useItineraryModal();
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const [successMessage, setSuccessMessage] = useState("");
   const firstFieldRef = useRef<HTMLInputElement>(null);
   const openedAtRef = useRef(0);
 
@@ -19,8 +20,10 @@ export default function ItineraryModal() {
     if (!state.open) {
       setSubmitted(false);
       setError("");
+      setSuccessMessage("");
       return;
     }
+
     openedAtRef.current = Date.now();
     firstFieldRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
@@ -28,6 +31,7 @@ export default function ItineraryModal() {
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
@@ -39,33 +43,68 @@ export default function ItineraryModal() {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
+
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    // Honeypot: a field real visitors never see or fill. Bots that
-    // auto-fill every input will trip it.
     if (String(data.get("company") || "").trim().length > 0) {
-      // Pretend success so the bot doesn't learn it was caught.
       setSubmitted(true);
+      setSuccessMessage("Your request has been received.");
       return;
     }
 
-    // Time-trap: a submission faster than a human could plausibly type
-    // this form is almost certainly scripted.
     if (Date.now() - openedAtRef.current < 1200) {
       setError("Please take a moment to fill in the form.");
       return;
     }
 
     const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const destination = String(data.get("destination") || "").trim();
+    const tripLength = String(data.get("tripLength") || "");
+    const travelers = String(data.get("travelers") || "");
+
     if (name.length < 2) {
       setError("Please enter your full name.");
       return;
     }
 
-    setSubmitted(true);
-    // Wire this up to your email/CRM provider of choice — this form is
-    // front-end only for now.
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    const text = [
+      "Hi! I'd like help planning a Sri Lanka trip.",
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Interested in: ${destination || "Not specified"}`,
+      `Trip length: ${tripLength}`,
+      `Travelers: ${travelers}`,
+    ].join("\n");
+
+    const whatsappNumber = siteConfig.contact.whatsapp.replace(/\D/g, "");
+    if (whatsappNumber) {
+      window.open(
+        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+      setSuccessMessage("WhatsApp opened with your trip request ready to send.");
+      setSubmitted(true);
+      return;
+    }
+
+    if (siteConfig.contact.email) {
+      window.location.href = `mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
+        "Sri Lanka itinerary request"
+      )}&body=${encodeURIComponent(text)}`;
+      setSuccessMessage("Your email app opened with the request ready to send.");
+      setSubmitted(true);
+      return;
+    }
+
+    setError("Trip requests are not connected yet. Please check back soon.");
   }
 
   return (
@@ -78,10 +117,7 @@ export default function ItineraryModal() {
         if (e.target === e.currentTarget) closeModal();
       }}
     >
-      <div
-        ref={dialogRef}
-        className="w-full sm:max-w-md bg-white rounded-t-[4px] sm:rounded-[4px] p-7 sm:p-9 animate-fadein max-h-[90vh] overflow-y-auto"
-      >
+      <div className="w-full sm:max-w-md bg-white rounded-t-[4px] sm:rounded-[4px] p-7 sm:p-9 animate-fadein max-h-[90vh] overflow-y-auto">
         <div className="flex items-start justify-between mb-6">
           <div>
             <p className="kicker text-green1 mb-2">Free planning</p>
@@ -105,9 +141,9 @@ export default function ItineraryModal() {
                 <path d="M4 12l5 5L20 6" />
               </svg>
             </div>
-            <p className="font-display italic text-xl font-medium mb-1.5">Request sent</p>
+            <p className="font-display italic text-xl font-medium mb-1.5">Request ready</p>
             <p className="text-sm text-muted leading-relaxed max-w-xs mx-auto font-light">
-              A trip planner will reply within one business day with a draft route and pricing.
+              {successMessage}
             </p>
             <button
               onClick={closeModal}
@@ -122,7 +158,6 @@ export default function ItineraryModal() {
               Tell us roughly what you want and we'll draft a day-by-day route, free of charge.
             </p>
 
-            {/* Honeypot — hidden from real visitors, invisible to screen readers */}
             <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
               <label htmlFor="it-company">Company</label>
               <input id="it-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
