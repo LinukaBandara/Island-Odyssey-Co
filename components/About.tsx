@@ -1,10 +1,10 @@
 import LazyImage from "./LazyImage";
 import Reveal from "./Reveal";
 
-const stats = [
-  { value: "12", label: "years planning routes across the island" },
-  { value: "3,400+", label: "travelers guided door to door" },
-  { value: "4.9", label: "average rating across every trip" },
+const points = [
+  { value: "South", label: "Coast, hill country, and the cultural triangle" },
+  { value: "Local", label: "Routes built around real places, not checklists" },
+  { value: "Flexible", label: "Plans that can change when the road does" },
 ];
 
 export default function About() {
@@ -21,22 +21,23 @@ export default function About() {
           />
         </Reveal>
         <Reveal delay={100} className="order-1 lg:order-2">
-          <p className="kicker text-green1 mb-5">Who plans this</p>
+          <p className="kicker text-green1 mb-5">How we plan</p>
           <h2 className="font-display italic font-medium text-4xl sm:text-5xl lg:text-[54px] mb-6 leading-[0.98]">
-            Built by people who drove<br className="hidden sm:block" /> the route first
+            Start with the route,<br className="hidden sm:block" /> not the brochure
           </h2>
           <p className="text-muted text-[15px] sm:text-[16px] leading-relaxed mb-10 max-w-xl font-light">
-            Island Odyssey Co. is a small team based between Colombo and the hill country. Nobody
-            drafts an itinerary for a place they haven't slept in — so timings, detours, and the
-            occasional closed road all come from someone who's actually been there this season.
+            Island Odyssey Co. plans trips around the way Sri Lanka actually works. Distances,
+            weather, opening times, train schedules, and the time it takes to get from one place
+            to the next all matter. The result is a route with room to breathe, rather than a list
+            of sights to rush through.
           </p>
           <div className="grid grid-cols-3 gap-5 sm:gap-8 max-w-xl pt-7 border-t border-line">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <p className="font-display italic font-medium text-3xl sm:text-4xl text-green1">
-                  {s.value}
+            {points.map((point) => (
+              <div key={point.value}>
+                <p className="font-display italic font-medium text-2xl sm:text-3xl text-green1">
+                  {point.value}
                 </p>
-                <p className="text-[11px] sm:text-xs text-muted leading-snug mt-2 font-light">{s.label}</p>
+                <p className="text-[11px] sm:text-xs text-muted leading-snug mt-2 font-light">{point.label}</p>
               </div>
             ))}
           </div>
