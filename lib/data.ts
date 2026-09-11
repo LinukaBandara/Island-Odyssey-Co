@@ -128,34 +128,23 @@ export const tours: Tour[] = [
   },
 ];
 
-export type Testimonial = {
-  name: string;
-  location: string;
-  quote: string;
-  rating: number;
+export type TripNote = {
+  title: string;
+  text: string;
 };
 
-export const testimonials: Testimonial[] = [
+export const tripNotes: TripNote[] = [
   {
-    name: "Naledi M.",
-    location: "Cape Town, South Africa",
-    quote:
-      "We told them we didn't want a checklist and they actually listened — three stops instead of eight, and time to sit still at each one. The tea factory detour wasn't even on the original plan.",
-    rating: 5,
+    title: "Leave room in the route",
+    text: "Sri Lanka looks compact on a map, but mountain roads, trains, traffic, and weather can change a day's timing. We would rather leave breathing room than pack every hour.",
   },
   {
-    name: "Tomás R.",
-    location: "Lisbon, Portugal",
-    quote:
-      "Our tracker in Yala predicted the leopard sighting almost to the minute. Every transfer after that ran the same way — quietly, and exactly on time.",
-    rating: 5,
+    title: "Time the coast around the weather",
+    text: "The island's two monsoon systems make one coast a better bet while another is wet. A good itinerary follows the season instead of fighting it.",
   },
   {
-    name: "Haruki F.",
-    location: "Fukuoka, Japan",
-    quote:
-      "Traveling with two kids usually means compromise. Here it meant a shorter list and longer mornings — Dambulla before the heat, home by nap time.",
-    rating: 4,
+    title: "Start early when it matters",
+    text: "Sigiriya, Yala, and Ella are all easier before the busiest part of the day. Earlier starts also leave more of the afternoon open for slower stops.",
   },
 ];
 
@@ -179,7 +168,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "6 min read",
     body: [
       "Sri Lanka runs on two monsoons, not one, and most of the frustration people report after a trip comes down to timing a route around only one of them.",
-      "The southwest monsoon runs roughly May to September and soaks the west and south coasts — Galle, Unawatuna, Hikkaduwa — along with the hill country. The northeast monsoon runs roughly October to January and does the same to the east coast and the cultural triangle around Dambulla and Sigiriya.",
+      "The southwest monsoon runs roughly May to September and soaks the west and south coasts — Galle, Unawatuna, Hikkaduwa — along with the hill country. The northeast monsoon runs roughly October to January and does the same to the east coast and the cultural triangle around Sigiriya.",
       "The practical upshot: if you're visiting between May and September, favor the east coast and the cultural triangle, and treat the south coast as a bonus rather than the anchor of the trip. Flip that between November and March, when the south and west coasts are at their driest and the east coast is at its wettest.",
       "Ella and Kandy sit in a kind of middle ground — rain is possible year-round in the hills, but mornings are reliably clear even in shoulder months, which is why we build hill-country mornings and coastal afternoons into the same itinerary whenever the calendar allows it.",
       "None of this is exact — weather in Sri Lanka moves fast and locally — but planning the rough shape of a route around these two systems, instead of ignoring them, is the single biggest lever for a trip that doesn't get rained out.",
