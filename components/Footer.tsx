@@ -64,11 +64,21 @@ export default function Footer() {
           )}
         </div>
       </Reveal>
-      <div className="max-w-6xl mx-auto border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between gap-2 text-[11px] font-light">
+      <div className="max-w-6xl mx-auto border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between gap-3 text-[11px] font-light">
         <p>© {new Date().getFullYear()} Island Odyssey Co. All rights reserved.</p>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
           <a href="/terms" className="hover:text-white transition-colors">Terms</a>
+          <span className="text-white/20">•</span>
+          <a
+            href="https://ark-ii.studio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/35 hover:text-white/70 transition-colors"
+            aria-label="Built by ARK II"
+          >
+            Built by ARK II
+          </a>
         </div>
       </div>
     </footer>
