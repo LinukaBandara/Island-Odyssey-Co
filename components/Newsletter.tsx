@@ -2,37 +2,62 @@
 
 import { useEffect, useRef, useState } from "react";
 import Reveal from "./Reveal";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function Newsletter() {
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const mountedAtRef = useRef(0);
 
   useEffect(() => {
     mountedAtRef.current = Date.now();
   }, []);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    const data = new FormData(e.currentTarget);
 
-    if (String(data.get("website") || "").trim().length > 0) {
-      setDone(true); // honeypot tripped — pretend success, don't process
+    if (!siteConfig.newsletterFormUrl) {
+      setError("Newsletter signup is not connected yet. Please check back soon.");
       return;
     }
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    if (String(data.get("website") || "").trim().length > 0) {
+      setDone(true);
+      return;
+    }
+
     if (Date.now() - mountedAtRef.current < 800) {
       setError("Please try again.");
       return;
     }
+
     const email = String(data.get("email") || "").trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    setDone(true);
-    // Wire this up to your email provider (Mailchimp, ConvertKit, etc.)
+    setSubmitting(true);
+    try {
+      const response = await fetch(siteConfig.newsletterFormUrl, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+
+      if (!response.ok) throw new Error("Newsletter request failed");
+      setDone(true);
+      form.reset();
+    } catch {
+      setError("We couldn't subscribe you right now. Please try again later.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -46,7 +71,9 @@ export default function Newsletter() {
           No spam — just new itineraries, seasonal timing tips, and the odd flight deal.
         </p>
         {done ? (
-          <p className="text-sm tracking-wide uppercase text-gold font-semibold">You're on the list — welcome.</p>
+          <p className="text-sm tracking-wide uppercase text-gold font-semibold" role="status">
+            You're on the list — welcome.
+          </p>
         ) : (
           <form className="max-w-md mx-auto" onSubmit={handleSubmit} noValidate>
             <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
@@ -67,9 +94,10 @@ export default function Newsletter() {
               />
               <button
                 type="submit"
-                className="rounded-[2px] border border-white/30 text-white text-xs font-semibold tracking-wide uppercase px-7 py-3.5 shrink-0 hover:bg-white hover:text-primary transition-colors"
+                disabled={submitting}
+                className="rounded-[2px] border border-white/30 text-white text-xs font-semibold tracking-wide uppercase px-7 py-3.5 shrink-0 hover:bg-white hover:text-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Subscribe
+                {submitting ? "Subscribing…" : "Subscribe"}
               </button>
             </div>
             {error && (
