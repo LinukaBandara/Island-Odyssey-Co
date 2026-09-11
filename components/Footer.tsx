@@ -1,5 +1,12 @@
 import Mark from "./Mark";
 import Reveal from "./Reveal";
+import { siteConfig } from "@/lib/siteConfig";
+
+const socials = [
+  { label: "Facebook", value: siteConfig.social.facebook, short: "f" },
+  { label: "Instagram", value: siteConfig.social.instagram, short: "ig" },
+  { label: "TikTok", value: siteConfig.social.tiktok, short: "tt" },
+].filter((social) => social.value);
 
 export default function Footer() {
   return (
@@ -29,26 +36,32 @@ export default function Footer() {
         <div>
           <p className="text-white text-[11px] font-semibold tracking-wide uppercase mb-4">Contact</p>
           <ul className="space-y-2.5 text-[13px] font-light">
-            <li>hello@islandodysseyco.com</li>
-            <li>+94 77 000 0000</li>
-            <li>Ella, Sri Lanka</li>
+            {siteConfig.contact.email && <li><a href={`mailto:${siteConfig.contact.email}`} className="hover:text-white transition-colors">{siteConfig.contact.email}</a></li>}
+            {siteConfig.contact.phone && <li><a href={`tel:${siteConfig.contact.phone}`} className="hover:text-white transition-colors">{siteConfig.contact.phone}</a></li>}
+            {siteConfig.contact.location && <li>{siteConfig.contact.location}</li>}
           </ul>
         </div>
 
         <div>
           <p className="text-white text-[11px] font-semibold tracking-wide uppercase mb-4">Follow</p>
-          <div className="flex gap-2">
-            {["f", "ig", "tt", "✉"].map((s) => (
-              <a
-                key={s}
-                href="#"
-                aria-label="Social link"
-                className="w-9 h-9 rounded-[3px] border border-white/15 flex items-center justify-center text-xs hover:border-white/40 hover:text-white transition-colors"
-              >
-                {s}
-              </a>
-            ))}
-          </div>
+          {socials.length > 0 ? (
+            <div className="flex gap-2">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.value}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Follow us on ${social.label}`}
+                  className="w-9 h-9 rounded-[3px] border border-white/15 flex items-center justify-center text-xs hover:border-white/40 hover:text-white transition-colors"
+                >
+                  {social.short}
+                </a>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs font-light">Social links coming soon.</p>
+          )}
         </div>
       </Reveal>
       <div className="max-w-6xl mx-auto border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between gap-2 text-[11px] font-light">
