@@ -5,8 +5,16 @@ export const siteConfig = {
   description:
     "Handcrafted Sri Lanka itineraries across coastline, hill country, ancient cities, and wildlife parks.",
   ogImage: "/og-image.jpg",
-  // Set these in your hosting provider's environment variables — never
-  // commit real IDs to the repo. Analytics only loads once a value is
-  // present here AND the visitor has accepted cookies.
   gaMeasurementId: process.env.NEXT_PUBLIC_GA_ID || "",
+  contact: {
+    whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "",
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "",
+    location: process.env.NEXT_PUBLIC_CONTACT_LOCATION || "",
+  },
+  social: {
+    facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "",
+    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "",
+    tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "",
+  },
 };
