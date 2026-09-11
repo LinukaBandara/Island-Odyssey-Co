@@ -98,7 +98,6 @@ export default function Hero() {
       <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/55 via-black/5 to-black/75 pointer-events-none" />
       <div className="absolute inset-0 z-[2] bg-black/10 pointer-events-none" />
 
-      {/* thin vertical index ticks, not glowing dots */}
       <div className="hidden sm:flex flex-col gap-4 absolute left-6 top-1/2 -translate-y-1/2 z-[6]">
         {destinations.map((d, i) => (
           <button
@@ -118,25 +117,25 @@ export default function Hero() {
       </div>
 
       <div className="relative z-[5] h-full flex items-center px-5 sm:px-8 lg:px-14">
-        <div className="max-w-md pt-16 sm:pt-0 sm:pl-6">
-          <p className="kicker text-white/60 mb-5">
+        <div className="w-full max-w-xl pt-16 pb-48 sm:py-0 sm:pl-6">
+          <p className="kicker text-white/60 mb-5 sm:mb-6">
             {String(current + 1).padStart(2, "0")} — {String(destinations.length).padStart(2, "0")}
           </p>
           <h1
             key={active.slug}
-            className="font-display italic font-medium text-[42px] sm:text-6xl lg:text-[72px] leading-[0.92] mb-5 animate-fadein text-white"
+            className="font-display italic font-medium text-[52px] leading-[0.9] sm:text-7xl lg:text-[88px] xl:text-[96px] mb-6 sm:mb-7 animate-fadein text-white max-w-2xl"
           >
             {active.name}
           </h1>
           <p
             key={active.slug + "-desc"}
-            className="text-white/80 text-[15px] leading-relaxed max-w-sm mb-8 animate-fadein font-light"
+            className="text-white/80 text-[16px] sm:text-[17px] leading-relaxed max-w-lg mb-9 sm:mb-10 animate-fadein font-light"
           >
             {active.desc}
           </p>
           <button
             onClick={() => openModal(active.name)}
-            className="group inline-flex items-center gap-3 text-white text-[12px] font-bold tracking-[0.18em] uppercase"
+            className="group inline-flex items-center gap-3 text-white text-[13px] sm:text-[12px] font-bold tracking-[0.18em] uppercase"
           >
             <span className="link-underline">Explore {active.name}</span>
             <span
@@ -149,9 +148,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* card rail */}
       <div className="absolute z-[6] right-0 left-0 sm:left-auto bottom-24 sm:bottom-16 px-4 sm:px-8 lg:px-14">
-        <div className="flex gap-2.5 overflow-x-auto no-scrollbar snap-x snap-mandatory sm:justify-end">
+        <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory sm:justify-end">
           {destinations.map((d, i) => {
             const isCurrent = i === current;
             return (
@@ -161,15 +159,15 @@ export default function Hero() {
                 aria-label={`Show ${d.name}`}
                 className={`relative shrink-0 snap-start overflow-hidden border transition-all duration-500 ${
                   isCurrent
-                    ? "w-28 h-40 sm:w-36 sm:h-56 border-white/50 brightness-100"
-                    : "w-20 h-32 sm:w-24 sm:h-44 border-white/10 brightness-[0.6] translate-y-2 sm:translate-y-3"
+                    ? "w-32 h-44 sm:w-36 sm:h-56 border-white/50 brightness-100"
+                    : "w-24 h-36 sm:w-24 sm:h-44 border-white/10 brightness-[0.6] translate-y-2 sm:translate-y-3"
                 }`}
               >
                 <Image src={d.thumb} alt="" fill sizes="150px" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
                 <span className="absolute left-2.5 bottom-2.5 text-left leading-tight">
-                  <b className="block text-white text-[11px] sm:text-[13px] font-semibold">{d.name}</b>
-                  <span className="block text-white/70 text-[9px] sm:text-[10.5px] tracking-wide">
+                  <b className="block text-white text-[12px] sm:text-[13px] font-semibold">{d.name}</b>
+                  <span className="block text-white/70 text-[10px] sm:text-[10.5px] tracking-wide">
                     {d.subtitle}
                   </span>
                 </span>
@@ -179,7 +177,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* arrows: quiet outline, identical treatment */}
       <div className="absolute z-[6] left-4 sm:left-8 lg:left-14 bottom-6 flex gap-2">
         <button
           onClick={() => goTo(current - 1)}
