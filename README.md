@@ -22,26 +22,14 @@ Next.js falls back to a WASM image processor that can fail on locally
 hosted photos with a `400` error. If you ever see broken images after a
 fresh install, run `npm install sharp` and rebuild.
 
-**Do not run `npm audit fix --force`.** It will jump Next.js to a new
-major version (15/16) that requires React 19 and breaks this project,
-to fix vulnerabilities in build-time tooling that carry no real risk for
-a site you build and deploy yourself.
+**Do not run `npm audit fix --force`.** It may jump Next.js to a new major
+version that requires a matching React version and can introduce unrelated
+breaking changes. Review dependency advisories before upgrading.
 
 ## Brand
 
-- **Logo:** `public/logo-mark.png` (dark green, for light backgrounds) and
-  `public/logo-mark-white.png` (white, for dark backgrounds) — both real
-  transparent PNGs extracted from your icon artwork. `components/Mark.tsx`
-  picks between them via its `light` prop. Favicon (`app/icon.png`) and
-  the social preview image (`public/og-image.jpg`) were generated from
-  the same mark.
-- **Colors** (`tailwind.config.ts`): `primary` (#1E3A2B, Tea Canopy Green
-  — nav, footer, buttons), `green1` (#3B604D, Misty Emerald — accent
-  text/CTAs), `gold` (#D4A359, Earthy Ochre — kickers/accents on dark
-  backgrounds), `cream` (#F7F5EE, Parchment White — light section
-  backgrounds), `ink` (#1A1A1A, Charcoal Slate — body text color, not a
-  background), `muted` (#5a564c — secondary/muted body text). All text
-  color pairings were checked against WCAG AA contrast.
+- **Logo:** `public/logo-mark.png` and `public/logo-mark-white.png` — transparent PNG variants used by `components/Mark.tsx`.
+- **Colors:** defined in `tailwind.config.ts` for the Island Odyssey brand.
 
 ## Site structure
 
@@ -51,61 +39,37 @@ This is a real multi-page site, not a single scrolling page:
 - `/destinations` — interactive map of the five regions
 - `/tours` — filterable tour packages
 - `/reviews` — testimonials
-- `/blog` and `/blog/[slug]` — journal listing + 3 real articles
+- `/blog` and `/blog/[slug]` — journal listing + articles
 - `/privacy`, `/terms` — legal pages
 - custom 404 (`app/not-found.tsx`)
 
-Navbar, Footer, the newsletter block, the WhatsApp button, and the
-itinerary modal live in `app/layout.tsx` so they appear on every page
-automatically. `components/PageBanner.tsx` and `components/PageHeader.tsx`
-exist purely to give light-background pages enough clearance under the
-fixed nav — they're not part of the nav itself.
+Navbar, Footer, the newsletter block, the WhatsApp button, and the itinerary modal live in `app/layout.tsx` so they appear on every page automatically.
 
 ## What's in each folder
 
 - `app/` — routes, layout, global styles, sitemap.ts, robots.ts
-- `components/` — all UI pieces (see comments in each file)
-- `lib/data.ts` — all site copy: destinations, tours, testimonials, blog
-  posts (with full article bodies), alt text. Edit this file to change
-  wording, prices, or add destinations without touching components.
-- `lib/siteConfig.ts` — site name/URL/description and the analytics ID,
-  all read from environment variables (see `.env.example`)
-- `public/images/` — your real destination photos, pre-compressed
-  (full + thumbnail variants); Next/Image + `sharp` further optimize and
-  responsive-size them at request time
+- `components/` — all UI pieces
+- `lib/data.ts` — destinations, tours, testimonials, blog posts, and alt text
+- `lib/siteConfig.ts` — site name, URL, description, contact details, social links, and analytics configuration
+- `public/images/` — destination photos served through `next/image`
 
-## Production checklist covered here
+## Production checklist
 
-- **Security:** no secrets in the codebase; `.env.example` documents the
-  only configurable values; `middleware.ts` forces HTTPS in production;
-  `next.config.mjs` sets HSTS, `X-Frame-Options`, `X-Content-Type-Options`,
-  and a restrictive `Permissions-Policy`
-- **Privacy:** real Privacy Policy and Terms pages; a cookie-consent
-  banner (`components/CookieConsent.tsx`) gates analytics until accepted
-- **SEO:** per-page titles/descriptions, Open Graph + Twitter card images,
-  canonical URLs, `sitemap.ts`, `robots.ts`, a real favicon + apple icon
-- **Accessibility:** every image has real (or deliberately empty,
-  decorative) alt text; text colors were checked against WCAG AA contrast
-  ratios and fixed where they failed (see `muted` and `green1` usage
-  instead of low-opacity black or gold on light backgrounds)
-- **Forms:** both forms (`ItineraryModal`, `Newsletter`) have a honeypot
-  field plus a time-trap against bots, and real validation with visible
-  error messages
-- **404 handling:** custom not-found page with links back into the site
-- **Performance:** photos are pre-resized/compressed, then re-optimized
-  and responsively served by `next/image`; below-the-fold content is
-  lazy-loaded
+- **Security:** no application secrets are stored in the repository; `.env.example` documents public runtime configuration. `middleware.ts` forces HTTPS in production and `next.config.mjs` sets security headers.
+- **Privacy:** Privacy Policy and Terms pages exist; analytics is gated by cookie consent.
+- **SEO:** per-page metadata, Open Graph/Twitter cards, canonical URLs, `sitemap.ts`, and `robots.ts` are configured from `NEXT_PUBLIC_SITE_URL`.
+- **Accessibility:** images include meaningful or decorative alt text and the interface uses checked text contrast.
+- **Forms:** itinerary and newsletter forms include bot protection and visible validation.
+- **Performance:** images are optimized with `next/image` and `sharp`, with below-the-fold content lazy-loaded where appropriate.
 
-## Still needs you
+## Environment configuration
 
-- **Analytics:** set `NEXT_PUBLIC_GA_ID` in your hosting provider's
-  environment variables to turn on Google Analytics. Leave it blank to
-  keep analytics off entirely.
-- **Forms:** `ItineraryModal` and `Newsletter` are front-end only — wire
-  their `handleSubmit` functions to your email/CRM provider.
-- **WhatsApp number, phone, email, address:** update the placeholders in
-  `components/WhatsAppButton.tsx` and `components/Footer.tsx`.
-- **Social links:** the footer's social icons still point to `#` —
-  add your real profile URLs there.
-- **Site URL:** set `NEXT_PUBLIC_SITE_URL` to your real production domain
-  once you have one (used by the sitemap and canonical/OG tags).
+Copy `.env.example` to `.env.local` and set the real production values before deployment.
+
+- `NEXT_PUBLIC_SITE_URL` — production site URL; defaults to `https://www.islandodysseyco.com`.
+- `NEXT_PUBLIC_GA_ID` — optional Google Analytics measurement ID.
+- `NEXT_PUBLIC_WHATSAPP_NUMBER` — optional WhatsApp number in international format.
+- `NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_CONTACT_PHONE`, `NEXT_PUBLIC_CONTACT_LOCATION` — optional public contact details.
+- `NEXT_PUBLIC_FACEBOOK_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_TIKTOK_URL` — optional social profile URLs. Empty values hide the corresponding buttons.
+
+Forms are currently front-end only; connect their submit handlers to the chosen email/CRM provider when the business is ready for production leads.
