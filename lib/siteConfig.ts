@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: "Island Odyssey Co.",
-  tagline: "Crafted journeys for the curious traveler",
+  tagline: "Sri Lanka, planned properly",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.islandodysseyco.com",
   description:
-    "Handcrafted Sri Lanka itineraries across coastline, hill country, ancient cities, and wildlife parks.",
+    "Private Sri Lanka journeys shaped around the places you want to see, how you like to travel, and the time you have.",
   ogImage: "/og-image.jpg",
   gaMeasurementId: process.env.NEXT_PUBLIC_GA_ID || "",
   newsletterFormUrl: process.env.NEXT_PUBLIC_NEWSLETTER_FORM_URL || "",
